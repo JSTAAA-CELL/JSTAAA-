@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高校网络安全案例分析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
+            color: #e6f7ff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            color: #4fc3f7;
+            text-shadow: 0 0 15px rgba(79, 195, 247, 0.6);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #4fc3f7, transparent);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #81d4fa;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .cases-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .case-card {
+            background: rgba(23, 42, 69, 0.8);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(79, 195, 247, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(79, 195, 247, 0.4);
+        }
+        
+        .case-header {
+            padding: 20px 30px;
+            background: rgba(11, 29, 56, 0.7);
+            border-bottom: 2px solid rgba(79, 195, 247, 0.2);
+        }
+        
+        .case-title {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .case-1 .case-title {
+            color: #ff5252;
+        }
+        
+        .case-2 .case-title {
+            color: #ff5252;
+        }
+        
+        .case-3 .case-title {
+            color: #ff5252;
+        }
+        
+        .case-tag {
+            display: inline-block;
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .case-content {
+            padding: 30px;
+        }
+        
+        .case-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(79, 195, 247, 0.2);
+        }
+        
+        .case-section:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #4fc3f7;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4fc3f7;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .section-content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #cae9ff;
+        }
+        
+        .section-content ul {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        
+        .section-content li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background: rgba(79, 195, 247, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #4fc3f7;
+        }
+        
+        .result-box {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4CAF50;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 20px;
+            color: #81d4fa;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(79, 195, 247, 0.2);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .case-content {
+                padding: 20px;
+            }
+            
+            .case-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>案例分析</h1>
+            <p class="subtitle">深入解析高校网络安全典型事件，总结应对策略与实施成效，提升校园网络安全防护能力</p>
+        </header>
+        
+        <div class="cases-container">
+            <!-- 案例1 -->
+            <div class="case-card case-1">
+                <div class="case-header">
+                    <h2 class="case-title">案例1 虚假"共享文档"钓鱼攻击</h2>
+                    <span class="case-tag">社交工程攻击</span>
+                </div>
+                <div class="case-content">
+                    <div class="case-section">
+                        <h3 class="section-title">案例简述</h3>
+                        <div class="section-content">
+                            <p>某高校学生微信群中出现名为《期末复习重点汇总》的在线文档链接，发布者伪装成班干部。学生点击链接后跳转至仿冒校园登录页面，提示输入学号密码查看内容。数名学生提交信息后，攻击者立即盗用其账号进行个人信息倒卖、群发诈骗链接等违法犯罪行为。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">应对策略</h3>
+                        <div class="section-content">
+                            <ul>
+                                <li><span class="highlight">技术层面</span>：部署钓鱼防护系统，校方邮件网关过滤仿冒链接，浏览器插件实时检测恶意域名（如腾讯御点）</li>
+                                <li><span class="highlight">管理层面</span>：建立举报通道，设置校园网"欺诈链接一键举报"按钮，安全团队30分钟内封禁域名</li>
+                                <li><span class="highlight">意识层面</span>：进行仿真钓鱼演练，每学期向学生发送模拟攻击邮件，点击链接者自动推送安全教育视频等</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">成效</h3>
+                        <div class="section-content">
+                            <div class="result-box">
+                                <p>某高校实施后，账号盗用事件下降76%，学生钓鱼链接识别正确率从32%提升至89%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例2 -->
+            <div class="case-card case-2">
+                <div class="case-header">
+                    <h2 class="case-title">案例2 校园Wi-Fi"克隆钓鱼"攻击</h2>
+                    <span class="case-tag">无线网络攻击</span>
+                </div>
+                <div class="case-content">
+                    <div class="case-section">
+                        <h3 class="section-title">案例简述</h3>
+                        <div class="section-content">
+                            <p>某大学图书馆内，攻击者利用便携式路由器伪造名为"Library-Free-WiFi"的开放热点（信号强度高于官方网络）。学生连接后受到流量劫持、恶意注入、数据嗅探等不法侵害。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">应对策略</h3>
+                        <div class="section-content">
+                            <ul>
+                                <li><span class="highlight">技术加固</span>：进行Wi-Fi强制认证，部署企业级WPA3-Enterprise网络，学生需通过数字证书/学号密码双向验证接入</li>
+                                <li><span class="highlight">管理机制</span>：采用热点合法性标识，在图书馆桌面张贴官方Wi-Fi二维码（含加密数字签名），扫码直连防伪</li>
+                                <li><span class="highlight">意识提升</span>：建立热点举报激励，学生上报可疑热点奖励校园积分（可兑换电费），确认后10分钟内安保人员定位清除</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">成效</h3>
+                        <div class="section-content">
+                            <div class="result-box">
+                                <p>某高校实施后，伪热点连接率下降92%，木马感染事件归零</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 案例3 -->
+            <div class="case-card case-3">
+                <div class="case-header">
+                    <h2 class="case-title">案例3 AI伪造导师视频诈骗</h2>
+                    <span class="case-tag">AI深度伪造攻击</span>
+                </div>
+                <div class="case-content">
+                    <div class="case-section">
+                        <h3 class="section-title">案例简述</h3>
+                        <div class="section-content">
+                            <p>某高校研究生微信群中出现"导师"私发的紧急消息："速转论文润色费至XX账户，稍后报销"，并附有3秒真人视频（点头动作+语音指令）。5名学生转账后察觉异常，经核实发现：攻击者通过用导师公开的会议视频，通过开源工具（如DeepFaceLab）生成动态换脸视频等不法方式诈骗金额达8.2万元，造成导师声誉受损，学生科研积极性受挫等不良影响。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">应对策略</h3>
+                        <div class="section-content">
+                            <ul>
+                                <li><span class="highlight">技术反制</span>：安装AI伪造检测插件，部署浏览器级检测工具（如Microsoft Video Authenticator），视频通话时自动分析瞳孔反光/微表情破绽</li>
+                                <li><span class="highlight">流程管控</span>：执行敏感操作延迟，单笔超过2000元转账冻结24小时，期间自动触发人工审核</li>
+                                <li><span class="highlight">意识防御</span>：进行深度伪造攻防实训，在《信息技术基础》课增加AI换脸技术解析实验，学生亲手生成/识别伪造视频</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="case-section">
+                        <h3 class="section-title">成效</h3>
+                        <div class="section-content">
+                            <div class="result-box">
+                                <p>某理工院校采用后，伪造视频诈骗实现零发案，安全短语覆盖率达100%，黑产市场"高校导师素材包"价格下跌70%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p></p>
+        </footer>
+    </div>
+</body>
+</html>
