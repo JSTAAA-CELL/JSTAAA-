@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络安全学习效果检测</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            /* 淡蓝色渐变背景 */
+            background: linear-gradient(135deg, #e6f4f9 0%, #d0e8f2 50%, #b3d9e9 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 3.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db, #2c3e50, #3498db);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 20px auto 0;
+            line-height: 1.6;
+        }
+        
+        .progress-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 12px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .question-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e0e7ff;
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-header {
+            padding: 18px 25px;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .question-number {
+            background: white;
+            color: #2c3e50;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .options-container {
+            padding: 25px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option:hover {
+            background: #f8f9ff;
+            border-color: #3498db;
+        }
+        
+        .option input[type="radio"] {
+            display: none;
+        }
+        
+        .option label {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .custom-radio {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #3498db;
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .custom-radio::after {
+            content: "";
+            width: 14px;
+            height: 14px;
+            background: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s ease;
+        }
+        
+        .option input:checked + label .custom-radio::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .option input:checked + label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .option input:checked + label .custom-radio {
+            border-color: #2c3e50;
+        }
+        
+        .option-letter {
+            font-weight: bold;
+            margin-right: 10px;
+            width: 24px;
+            color: #3498db;
+        }
+        
+        .submit-container {
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .submit-btn i {
+            margin-left: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .correct-answer {
+            padding: 15px 20px;
+            background: #e8f4fc;
+            border-left: 4px solid #3498db;
+            margin-top: 10px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+        
+        .correct-answer.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .answer-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .question-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .question-number {
+                margin-bottom: 10px;
+            }
+            
+            .progress-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .progress-bar {
+                width: 100%;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>学习检测</h1>
+            <p class="subtitle">请完成以下10道网络安全测试题，以检验您的网络安全知识掌握程度。</p>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-text">完成进度</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0/10</div>
+        </div>
+        
+        <div class="question-container" id="questionContainer">
+            <!-- 问题1 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">1</div>
+                    <div class="question-text">网页恶意代码通常利用什么来实现植入并进行攻击？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1a">
+                        <label for="q1a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">口令攻击</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1b">
+                        <label for="q1b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">U盘工具</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1c">
+                        <label for="q1c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">IE浏览器的漏洞</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q1" id="q1d">
+                        <label for="q1d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">拒绝服务攻击</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer1">
+                        <span class="answer-text">正确答案：C - IE浏览器的漏洞</span> 
+                        <p>恶意代码常利用浏览器漏洞进行传播和攻击，因为浏览器是用户访问网络的主要入口。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题2 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">2</div>
+                    <div class="question-text">针对数据包过滤和应用网关技术存在的缺点而引入的防火墙技术，这是（）防火墙的特点。</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2a">
+                        <label for="q2a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">包过滤型</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2b">
+                        <label for="q2b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">应用级网关型</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2c">
+                        <label for="q2c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">复合型防火墙</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q2" id="q2d">
+                        <label for="q2d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">代理服务型</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer2">
+                        <span class="answer-text">正确答案：D - 代理服务型</span> 
+                        <p>代理服务型防火墙结合了包过滤和应用网关的优点，提供更高级别的安全保护。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题3 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">3</div>
+                    <div class="question-text">使网络服务器中充斥着大量要求回复的信息，消耗带宽，网络或系统停止正常服务，这属于什么攻击类型？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3a">
+                        <label for="q3a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">拒绝服务</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3b">
+                        <label for="q3b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">文件共享</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3c">
+                        <label for="q3c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">BIND漏洞</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q3" id="q3d">
+                        <label for="q3d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">远程过程调用</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer3">
+                        <span class="answer-text">正确答案：A - 拒绝服务</span> 
+                        <p>拒绝服务攻击（DoS）旨在使目标系统无法提供正常服务，通常通过消耗资源实现。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题4 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">4</div>
+                    <div class="question-text">为了防备网络监听，最常用的方法是？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4a">
+                        <label for="q4a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">接受物理传输（非网络）</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4b">
+                        <label for="q4b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">信息加密</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4c">
+                        <label for="q4c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">无线网</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q4" id="q4d">
+                        <label for="q4d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">使用专线网络</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer4">
+                        <span class="answer-text">正确答案：B - 信息加密</span> 
+                        <p>加密是防止网络监听最有效的方法，即使数据被截获，也无法被解读。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题5 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">5</div>
+                    <div class="question-text">主要用于加密机制的协议是？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5a">
+                        <label for="q5a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">HTTP</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5b">
+                        <label for="q5b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">FTP</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5c">
+                        <label for="q5c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">TELNET</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q5" id="q5d">
+                        <label for="q5d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">SSL</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer5">
+                        <span class="answer-text">正确答案：D - SSL</span> 
+                        <p>SSL（安全套接层）协议专门设计用于在互联网上提供加密通信和安全数据传输。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题6 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">6</div>
+                    <div class="question-text">用户收到了一封可疑的电子邮件，要求用户供应银行账户及密码，这是属于何种攻击手段？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6a">
+                        <label for="q6a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">缓存溢出攻击</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6b">
+                        <label for="q6b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">钓鱼攻击</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6c">
+                        <label for="q6c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">暗门攻击</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q6" id="q6d">
+                        <label for="q6d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">DDOS攻击</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer6">
+                        <span class="answer-text">正确答案：B - 钓鱼攻击</span> 
+                        <p>钓鱼攻击通过伪装成可信来源诱骗用户提供敏感信息，是常见的社交工程攻击手段。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题7 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">7</div>
+                    <div class="question-text">Windows NT 和Windows 2000系统能设置为在几次无效登录后锁定账号，这可以防止？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7a">
+                        <label for="q7a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">木马</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7b">
+                        <label for="q7b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">暴力攻击</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7c">
+                        <label for="q7c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">IP哄骗</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q7" id="q7d">
+                        <label for="q7d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">缓存溢出攻击</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer7">
+                        <span class="answer-text">正确答案：B - 暴力攻击</span> 
+                        <p>账户锁定机制能有效防止攻击者尝试大量用户名密码组合的暴力破解攻击。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题8 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">8</div>
+                    <div class="question-text">网络平安在多网合一时代的脆弱性体现在？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8a">
+                        <label for="q8a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">网络的脆弱性</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8b">
+                        <label for="q8b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">软件的脆弱性</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8c">
+                        <label for="q8c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">管理的脆弱性</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q8" id="q8d">
+                        <label for="q8d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">应用的脆弱性</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer8">
+                        <span class="answer-text">正确答案：C - 管理的脆弱性</span> 
+                        <p>在多网合一时代，安全管理漏洞成为网络安全的最大风险点，需要加强整体安全策略。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题9 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">9</div>
+                    <div class="question-text">我国的计算机年犯罪率的增长是？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9a">
+                        <label for="q9a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">10%</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9b">
+                        <label for="q9b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">160%</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9c">
+                        <label for="q9c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">60%</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q9" id="q9d">
+                        <label for="q9d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">300%</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer9">
+                        <span class="answer-text">正确答案：C - 60%</span> 
+                        <p>随着互联网普及，计算机犯罪率呈现快速增长趋势，年均增长率约为60%。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 问题10 -->
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-number">10</div>
+                    <div class="question-text">下列不属于系统的技术是？</div>
+                </div>
+                <div class="options-container">
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10a">
+                        <label for="q10a">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">A</div>
+                            <div class="option-text">防火墙</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10b">
+                        <label for="q10b">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">B</div>
+                            <div class="option-text">加密狗</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10c">
+                        <label for="q10c">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">C</div>
+                            <div class="option-text">认证</div>
+                        </label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="q10" id="q10d">
+                        <label for="q10d">
+                            <div class="custom-radio"></div>
+                            <div class="option-letter">D</div>
+                            <div class="option-text">防病毒</div>
+                        </label>
+                    </div>
+                    <div class="correct-answer" id="answer10">
+                        <span class="answer-text">正确答案：B - 加密狗</span> 
+                        <p>加密狗是一种硬件加密设备，不属于系统层面的安全技术。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="submit-container">
+            <button class="submit-btn" id="submitBtn">
+                作答结束 <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        
+        <footer>
+            <p>@网络安全知识学习检测|2025</p>
+        </footer>
+    </div>
+    
+<script>
+    // 存储所有题目的正确答案（与题目序号对应）
+    const correctAnswers = {
+        q1: 'q1c', // 第1题正确选项为C
+        q2: 'q2d', // 第2题正确选项为D
+        q3: 'q3a', // 第3题正确选项为A
+        q4: 'q4b', // 第4题正确选项为B
+        q5: 'q5d', // 第5题正确选项为D
+        q6: 'q6b', // 第6题正确选项为B
+        q7: 'q7b', // 第7题正确选项为B
+        q8: 'q8c', // 第8题正确选项为C
+        q9: 'q9c', // 第9题正确选项为C
+        q10: 'q10b' // 第10题正确选项为B
+    };
+
+    // 更新进度条并检查答案
+    function updateProgress() {
+        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        const percentage = (answered / 10) * 100;
+        progressFill.style.width = `${percentage}%`;
+        progressText.textContent = `${answered}/10`;
+    }
+
+    // 添加事件监听器（优化答案显示逻辑）
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            updateProgress();
+            const questionId = this.name;
+            const questionNum = questionId.substring(1); // 提取题目序号（如q1→1）
+            const answerElement = document.getElementById(`answer${questionNum}`);
+            
+            // 显示正确答案（点击后立即显示）
+            answerElement.classList.add('show');
+            
+            // 标记答案是否正确（可添加样式反馈）
+            if (this.id === correctAnswers[questionId]) {
+                this.parentElement.classList.add('correct'); // 正确选项添加样式
+            } else {
+                // 错误选项处理（可选：标记错误样式）
+                // this.parentElement.classList.add('wrong');
+            }
+        });
+    });
+
+    // 提交按钮事件（计算分数逻辑）
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+        
+        if (answered < 10) {
+            alert(`您还有${10 - answered}道题目未完成，请完成所有题目后再提交！`);
+            return;
+        }
+
+        // 计算正确题数
+        let correctCount = 0;
+        for (const questionId in correctAnswers) {
+            const selectedAnswer = document.querySelector(`input[name="${questionId}"]:checked`);
+            if (selectedAnswer && selectedAnswer.id === correctAnswers[questionId]) {
+                correctCount++;
+            }
+        }
+
+        // 跳转到结果页并传递分数（通过URL参数）
+        window.location.href = `wangchengyemian.html?score=${correctCount * 10}`;
+    });
+
+    // 初始化进度条
+    updateProgress();
+</script>
+</body>
+</html>
