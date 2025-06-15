@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高校网络安全教育平台</title>
+    <style>
+        /* 基础样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 0.6rem 0; /* 减小顶部导航栏高度 */
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem; /* 减小导航项间距 */
+        }
+
+        .nav-list li {
+            font-size: 0.9rem; /* 减小导航字体大小 */
+        }
+
+        .nav-list a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.3rem 0.6rem; /* 减小导航项内边距 */
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-list a:hover,
+        .nav-list a.active {
+            background-color: #0056b3;
+        }
+
+        main {
+            padding: 1rem; /* 减小主内容区边距 */
+            background-color: #e0f7ff;
+            margin-bottom: 40px; /* 减小底部间距 */
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 1rem; /* 减小英雄区底部间距 */
+        }
+
+        .hero h1 {
+            font-size: 1.8rem; /* 减小标题字体 */
+        }
+
+        .hero p {
+            font-size: 0.9rem; /* 减小副标题字体 */
+        }
+
+        .intro {
+            background-color: #fff;
+            padding: 1rem; /* 减小介绍区块内边距 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem; /* 减小底部间距 */
+        }
+
+        .intro h2 {
+            font-size: 1.3rem; /* 减小标题字体 */
+            margin-bottom: 0.3rem; /* 减小底部间距 */
+        }
+
+        .intro p {
+            font-size: 0.85rem; /* 减小内容字体 */
+        }
+
+        .heroes {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 0.8rem; /* 减小卡片间距 */
+            overflow-x: auto;
+            padding-bottom: 0.8rem; /* 减小底部间距 */
+        }
+
+        .hero-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            min-width: 260px; /* 减小卡片最小宽度 */
+            flex: 1;
+            height: 580px; /* 调整卡片高度 */
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px; /* 保持图片高度 */
+            object-fit: cover;
+        }
+
+        .hero-content {
+            padding: 0.6rem; /* 减小内容区边距 */
+            height: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero-name {
+            font-size: 1rem; /* 减小名字字体 */
+            margin-bottom: 0.1rem; /* 减小底部间距 */
+        }
+
+        .hero-title {
+            font-size: 0.85rem; /* 减小职位字体 */
+            color: #007BFF;
+            margin-bottom: 0.3rem; /* 减小底部间距 */
+        }
+
+        .hero-story {
+            font-size: 0.8rem; /* 减小简介字体 */
+            line-height: 1.3; /* 减小行高 */
+            overflow: visible;
+            height: auto;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: #fff;
+            text-align: center;
+            padding: 0.6rem 0; /* 减小页脚高度 */
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            z-index: 100;
+        }
+        
+        .copyright-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 0.8rem; /* 减小版权区边距 */
+        }
+        
+        footer p {
+            font-size: 0.8rem; /* 减小版权文字大小 */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="index.html" class="nav-link font-medium whitespace-nowrap active">首页</a></li>
+                <li><a href="lilun.html" class="nav-link font-medium whitespace-nowrap">基础理论</a></li>
+                <li><a href="fanfanbaohu.html" class="nav-link font-medium whitespace-nowrap">技术防护</a></li>
+                <li><a href="falvfagui.html" class="nav-link font-medium whitespace-nowrap">法律法规</a></li>
+                <li><a href="anlifenxi.html" class="nav-link font-medium whitespace-nowrap">案例分析</a></li>
+                <li><a href="study.html" class="nav-link font-medium whitespace-nowrap">学习检测</a></li>
+                <li><a href="question.html" class="nav-link font-medium whitespace-nowrap">问题反馈</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>高校网络安全教育平台</h1>
+            <p>掌握网络安全知识，保护数字世界安全</p>
+        </section>
+
+        <section class="intro">
+            <h2>网络安全英雄模范人物</h2>
+            <p>在网络安全领域，有许多杰出的人物为保护国家和人民的信息安全做出了重要贡献。他们的事迹激励着我们不断学习和进步，下面让我们一起了解这些网络安全领域的英雄模范。</p>
+        </section>
+
+        <section class="heroes">
+            <div class="hero-card">
+                <img src="images/网络安全模范人物李明.PNG" alt="网络安全专家李明" class="hero-image">
+                <div class="hero-content">
+                    <h3 class="hero-name">李明</h3>
+                    <p class="hero-title">国家网络安全中心主任</p>
+                    <p class="hero-story">李明博士是我国网络安全领域的领军人物，曾主导设计多个国家级网络安全防护系统，成功抵御了多次重大网络攻击，保障了关键信息基础设施的安全运行。他带领团队研发的智能入侵检测系统，目前已在全国2000多家重要机构部署，有效提升了我国网络安全的整体防护能力。</p>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <img src="images/密码学专家王小云.jpg" alt="密码学专家王小云" class="hero-image">
+                <div class="hero-content">
+                    <h3 class="hero-name">王小云</h3>
+                    <p class="hero-title">密码学专家</p>
+                    <p class="hero-story">王小云教授，国际顶尖密码学家，清华大学高等研究院"杨振宁讲座"教授，中国科学院院士。她最杰出的贡献是率先给出了对国际通用密码哈希函数MD5和SHA-1的高效碰撞攻击方法，这一成果在国际密码学界引起轰动，推动了密码学领域的前沿研究。她的研究为我国信息安全核心技术的自主创新奠定了重要基础。</p>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <img src="images/网络安全模范人物丁珂.PNG" alt="中国顶尖APT攻击防御专家丁珂" class="hero-image">
+                <div class="hero-content">
+                    <h3 class="hero-name">丁珂</h3>
+                    <p class="hero-title">中国顶尖APT攻击防御专家</p>
+                    <p class="hero-story">丁珂为360集团核心安全高管，在高级持续性威胁（APT）检测与防御领域有突出贡献和影响力。他带领团队成功追踪并披露了多个针对我国的境外APT攻击组织，其主导研发的APT攻击预警系统，能够提前识别并阻断高级网络攻击，为政府、金融、能源等关键领域提供了强有力的安全保障。</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="copyright-wrapper">
+            <p>@2025高校网络安全教育平台|版权归网间一区金淑婷所有</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-list a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
